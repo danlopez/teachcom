@@ -14,6 +14,18 @@ class Student(models.Model):
     phone_number = models.CharField(max_length=30)
     email= models.CharField(max_length=30)
 
+    def __unicode__(self):
+        return u'%s %s' % (self.first_name, self.last_name)
+
+class Teacher(models.Model):
+    user = models.OneToOneField(User)
+    twilio_account_sid = models.CharField(max_length = 128)
+    twilio_auth_token = models.CharField(max_length = 128)
+    twilio_number = models.CharField(max_length = 20)
+
+    def __unicode__(self):
+        return self.user.username
+
 class Message(models.Model):
     teacher = models.ForeignKey('Teacher')
     label = models.CharField(max_length=64)
@@ -38,8 +50,3 @@ class Event(models.Model):
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
 
-class Teacher(models.Model):
-    user = models.OneToOneField(User)
-    twilio_account_sid = models.CharField(max_length = 128)
-    twilio_auth_token = models.CharField(max_length = 128)
-    twilio_number = models.CharField(max_length = 20)

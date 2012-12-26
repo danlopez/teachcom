@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 from teachercomapp.forms import UserRegistrationForm
 
 from registration.views import register
-# from registration.views import login
 import registration.backends.default.urls as regUrls
 # import registration.backends.simple.urls as simpleUrls
 
@@ -26,13 +25,12 @@ urlpatterns = patterns('',
     url(r'^send/', 'teachercomapp.views.send', name='send'),
     url(r'^csv/', 'teachercomapp.views.handle_csv', name='csv'),
     url(r'^call_log/', 'teachercomapp.views.call_log', name='call_log'),
+    url(r'^edit_messages/', 'teachercomapp.views.edit_messages', name='edit_messages'),
     url(r'^twilio_calls/(\d+)/$', 'teachercomapp.views.twilio_call', name='twilio_call'),
-    # url(r'^teachercom/', include('teachercom.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/register/$', register, register_args, name='registration_register'),
     url(r'^accounts/', include(regUrls)),

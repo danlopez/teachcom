@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from teachercomapp.models import Student, Message, Event, Teacher
+from teachercomapp.forms import MessageForm
 import datetime
 import csv
 import StringIO
@@ -96,6 +97,30 @@ def call_log(request):
         }
     return render_to_response('call_log.html', data)        
 
+def edit_messages(request):
+    if request.method == 'GET':
+        data = {
+                'form' : MessageForm,
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        return render_to_response('edit_messages.html', data)
+    else:
+        data = {
+                'form' : MessageForm(request.POST),
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        f = MessageForm(request.POST)
+        # Check to see if form is valid
+        if f.is_valid():
+            cd = f.cleaned_data
+            teacher = Teacher.objects.get(user=request.user)
+            message = Message(teacher = teacher, label=cd['label'], text=cd['text'])
+            message.save()
+            return render_to_response('saved_messages.html', data)
+        else:
+            return render_to_response('edit_messages.html', data)
 
 def send_message(student, message, message_type):
     print 'sending message for %s' % (student.first_name)

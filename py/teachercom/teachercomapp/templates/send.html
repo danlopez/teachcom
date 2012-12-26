@@ -7,13 +7,12 @@
         <label for="students">Enter Student Names</label>
         <select name="students" class="span4" multiple>
             {% for student in students %}
-                <option value="{{student.id}}">{{student.first_name}}
-                    {{student.last_name}}</option>
+                <option value="{{student.id}}">{{student}}</option>
             {% endfor %}
         </select>
     </div>
     <div class="control-group">
-        <label for="message">Enter Message Type</label>
+        <label for="message">Enter Message Type <a href="/edit_messages">Create New Messages</a></label> 
         <select name="message" class="span4">
             {% for message in messages %}
                 <option value="{{message.id}}">{{message.label}}</option>
