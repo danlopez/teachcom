@@ -34,4 +34,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/register/$', register, register_args, name='registration_register'),
     url(r'^accounts/', include(regUrls)),
+    url(r'^list_students/','teachercomapp.views.list_students'),
     )

@@ -47,6 +47,14 @@ def send(request):
                 send_message(student, message, 3)
         return render_to_response('sent.html', data)
 
+def list_students(request):
+    teacher = Teacher.objects.get(user=request.user)
+    data = {
+        'students': Student.objects.filter(teachers=teacher),
+        'user': request.user,
+    }
+    return render_to_response('list_students.html', data)
+    
 def handle_csv(request):
     """ Note: not a whole lot of error detection / correction
         going on here, if a bad csv comes in, it'll 500 """
