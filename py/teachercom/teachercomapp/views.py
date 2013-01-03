@@ -11,6 +11,7 @@ import csv
 import StringIO
 from twilio import twiml
 from django import template
+from django.db.models import Q
 
 @cache_page(1)
 def index(request):
@@ -97,9 +98,9 @@ def handle_csv(request):
         return render_to_response('csv-saved.html', data)
 
 def call_log(request):
-    teacher = Teacher.objects.get(user=request.user)
+    teacher = Teacher.objects.get(user = request.user)
     data = {
-            'events': Event.objects.filter(message=Message.objects.filter(teacher=teacher)),
+            'events': Event.objects.filter(message__in = Message.objects.filter(teacher = teacher)),
             'user': request.user,
         }
     return render_to_response('call_log.html', data)        
