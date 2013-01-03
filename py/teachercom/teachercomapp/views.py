@@ -35,7 +35,6 @@ def send(request):
         data = {
             'user': request.user,
         }
-
         message = Message.objects.get(pk=request.POST['message'])
         for student_id in request.POST.getlist('students'):
             student = Student.objects.get(pk=student_id)
@@ -88,9 +87,9 @@ def handle_csv(request):
                 last_name = row[2].strip(),
                 phone_number = row[3].strip(),
                 email = row[4].strip(),
-                sms_notification_ind = (row[5].strip() == 'True'),
-                call_notification_ind = (row[6].strip() == 'True'),
-                email_notification_ind = (row[7].strip() == 'True'),
+                sms_notification_ind = (row[5].strip().lower() == 'true'),
+                call_notification_ind = (row[6].strip().lower() == 'true'),
+                email_notification_ind = (row[7].strip().lower() == 'true'),
             )
             student.save()
             student.teachers.add(teacher)

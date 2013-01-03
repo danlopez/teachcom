@@ -6,6 +6,9 @@
         <td> Name </td>
         <td> Phone </td>
         <td> Email </dd>
+        <td> Email Pref </dd>
+        <td> SMS Pref </dd>
+        <td> Phone Pref </dd>
     </thead>
     <tbody>
         {% for student in students %}
@@ -14,6 +17,9 @@
             <td> {{ student }} </td>
             <td> {{ student.phone_number }} </td>
             <td> {{ student.email }} </td>
+            <td> {{ student.email_notification_ind }} </td>
+            <td> {{ student.sms_notification_ind }} </td>
+            <td> {{ student.call_notification_ind }} </td>            
         </tr>
         {% endfor %}
     </tbody>
