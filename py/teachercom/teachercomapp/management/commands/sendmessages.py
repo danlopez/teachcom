@@ -40,3 +40,4 @@ class Command(BaseCommand):
             else:
                 pass
                 # send email, you know, if we get time
+            event.save()
