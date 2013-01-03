@@ -35,6 +35,8 @@ class Command(BaseCommand):
                     to = event.student.phone_number,
                     from_ = event.message.teacher.twilio_number,
                     url = '%stwilio_calls/%d/' % (BASE_URL, event.id))
+                event.result_of_message=0
+                #actually check result later
             else:
                 pass
                 # send email, you know, if we get time
