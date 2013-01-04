@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table">
+    <thead>
+        <td></td>
+        <td> Message ID </td>
+        <td> Label </td>
+        <td> Message </td>
+    </thead>
+    <tbody>
+        {% for message in messages %}
+        <tr>
+            <td> 
+                <button class="btn btn-info" id="edit_message_{{ message.id }}">Edit</button>
+                <button class="btn btn-danger" id="delete_message_{{ message.id }}">Delete</button> 
+            </td>
+            <td> {{ message.id }} </td>
+            <td> {{ message.label }} </td>
+            <td> {{ message.text }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
