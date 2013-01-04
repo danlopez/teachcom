@@ -25,7 +25,8 @@ urlpatterns = patterns('',
     url(r'^send/', 'teachercomapp.views.send', name='send'),
     url(r'^csv/', 'teachercomapp.views.handle_csv', name='csv'),
     url(r'^call_log/', 'teachercomapp.views.call_log', name='call_log'),
-    url(r'^edit_messages/', 'teachercomapp.views.edit_messages', name='edit_messages'),
+    url(r'^new_message/', 'teachercomapp.views.new_message', name='new_message'),
+    url(r'^my_messages/', 'teachercomapp.views.my_messages', name='my_messages'),
     url(r'^twilio_calls/(\d+)/$', 'teachercomapp.views.twilio_call', name='twilio_call'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
