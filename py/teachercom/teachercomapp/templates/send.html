@@ -12,7 +12,7 @@
         </select>
     </div>
     <div class="control-group">
-        <label for="message">Enter Message Type <a href="/edit_messages">Create New Messages</a></label> 
+        <label for="message">Enter Message Type <a href="/new_message">Create New Messages</a></label> 
         <select name="message" class="span4">
             {% for message in messages %}
                 <option value="{{message.id}}">{{message.label}}</option>

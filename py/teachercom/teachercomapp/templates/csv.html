@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <form action="#" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <h2>Upload CSV</h2>
@@ -19,4 +20,7 @@ student id, first name, last name, phone number, email, sms preference, call pre
 23456, Jane, Doe, 215-555-1234, mrs.doe@gmail.com, True, False, True
     </pre>
 </div>
+-- OR --
+<h2> Single Student </h2>
+<a href="/new_student">Add a single student </a>
 {% endblock %}

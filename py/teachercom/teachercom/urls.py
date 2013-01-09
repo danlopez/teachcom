@@ -26,14 +26,17 @@ urlpatterns = patterns('',
     url(r'^csv/', 'teachercomapp.views.handle_csv', name='csv'),
     url(r'^call_log/', 'teachercomapp.views.call_log', name='call_log'),
     url(r'^new_message/', 'teachercomapp.views.new_message', name='new_message'),
+    url(r'^delete_message/','teachercomapp.ajax.delete_message', name='delete_message'),
+    url(r'^edit_message/(\d+)/$', 'teachercomapp.views.edit_message', name='edit_message'),
     url(r'^my_messages/', 'teachercomapp.views.my_messages', name='my_messages'),
     url(r'^twilio_calls/(\d+)/$', 'teachercomapp.views.twilio_call', name='twilio_call'),
-
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/register/$', register, register_args, name='registration_register'),
     url(r'^accounts/', include(regUrls)),
-    url(r'^list_students/','teachercomapp.views.list_students'),
+    url(r'^list_students/','teachercomapp.views.list_students', name='list_students'),
+    url(r'^new_student/', 'teachercomapp.views.new_student', name='new_student'),
+    url(r'^edit_student/(\d+)/$', 'teachercomapp.views.edit_student', name='edit_student'),
     )

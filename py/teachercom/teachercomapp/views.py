@@ -1,11 +1,11 @@
 # Create your views here.
 from django.core.context_processors import csrf
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from teachercomapp.models import Student, Message, Event, Teacher
-from teachercomapp.forms import MessageForm
+from teachercomapp.forms import MessageForm, StudentForm
 import datetime
 import csv
 import StringIO
@@ -29,7 +29,6 @@ def send(request):
             'messages': Message.objects.filter(teacher=teacher).order_by('label'),
             'user': request.user,
         }
-
         data.update(csrf(request))
         return render_to_response('send.html', data)
     else:
@@ -50,7 +49,7 @@ def send(request):
 def list_students(request):
     teacher = Teacher.objects.get(user=request.user)
     data = {
-        'students': Student.objects.filter(teachers=teacher),
+        'students': Student.objects.filter(teachers=teacher).order_by('first_name'),
         'user': request.user,
     }
     return render_to_response('list_students.html', data)
@@ -105,6 +104,75 @@ def call_log(request):
         }
     return render_to_response('call_log.html', data)        
 
+def edit_student(request, student_id):
+    student = Student.objects.get(id = student_id)
+    if request.method == 'GET':
+        data = {
+                'form' : StudentForm (instance = student),
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        return render_to_response('standard_form.html', data)
+    elif request.method =='POST':
+        student_form = StudentForm(request.POST, instance = student)
+        data = {
+                'form' : student_form,
+                'user' : request.user,
+        } 
+        data.update(csrf(request))
+        if student_form.is_valid():
+            student_form.save()
+            return redirect('list_students')
+        else:
+            return render_to_response('standard_form.html', data) 
+
+def new_student(request):
+    if request.method == 'GET':
+        data = {
+                'form' : StudentForm(),
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        return render_to_response('standard_form.html', data)
+    elif request.method =='POST':
+        student_form = StudentForm(request.POST)
+        data = {
+                'form' : student_form,
+                'user' : request.user,
+        } 
+        data.update(csrf(request))
+        if student_form.is_valid():
+            student = student_form.save(commit=False)
+            student.save()
+            student.teachers.add(Teacher.objects.get(user=request.user))
+            student.save()
+            return redirect('list_students')
+        else:
+            return render_to_response('standard_form.html', data) 
+
+def edit_message(request, message_id):
+    message = Message.objects.get(id = message_id)
+    if request.method=='GET':
+        data = {
+                'form' : MessageForm (instance = message),
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        return render_to_response('standard_form.html', data)
+    elif request.method=='POST':
+        message_form = MessageForm(request.POST, instance = message)
+        data = {
+                'form' : message_form,
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        if message_form.is_valid():
+            message_form.save()
+            return redirect('my_messages')
+        else:
+            return render_to_response('standard_form.html', data)
+
+
 def new_message(request):
     if request.method == 'GET':
         data = {
@@ -122,11 +190,10 @@ def new_message(request):
         f = MessageForm(request.POST)
         # Check to see if form is valid
         if f.is_valid():
-            cd = f.cleaned_data
-            teacher = Teacher.objects.get(user=request.user)
-            message = Message(teacher = teacher, label=cd['label'], text=cd['text'])
+            message = f.save(commit=False)
+            message.teacher = Teacher.objects.get(user=request.user)
             message.save()
-            return render_to_response('saved_messages.html', data)
+            return redirect('my_messages')
         else:
             return render_to_response('new_message.html', data)
 
