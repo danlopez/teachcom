@@ -264,12 +264,13 @@ def record_twilio_call(request):
     conn = TwilioRestClient(
         account = teacher.twilio_account_sid,
         token = teacher.twilio_auth_token)
-    # conn.calls.create(
-    #     to = '5855763828',
-    #     from_ = teacher.twilio_number,
-    #     url = '%srecord_twiml/' % (BASE_URL))
+    conn.calls.create(
+        to = '5855763828',
+        from_ = teacher.twilio_number,
+        url = '%srecord_twiml/' % (BASE_URL))
     return render_to_response("recording_prompt.html")
 
 @csrf_exempt
 def record_twiml(request):
+    print request
     return render_to_response("recording_prompt.html")
