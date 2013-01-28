@@ -12,7 +12,7 @@ class Student(models.Model):
     call_notification_ind = models.BooleanField()
     email_notification_ind = models.BooleanField()
     phone_number = models.CharField(max_length=30)
-    email= models.CharField(max_length=30)
+    email= models.EmailField(max_length=30)
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.last_name)

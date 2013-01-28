@@ -8,11 +8,10 @@
         <td> Message </td>
     </thead>
     <tbody>
-        {% for message in messages %}
-        <tr>
-            <td> 
-                <button class="btn btn-info" id="edit_message_{{ message.id }}">Edit</button>
-                <button class="btn btn-danger" id="delete_message_{{ message.id }}">Delete</button> 
+        {% for message in messages %}        <tr id = "message_row_{{ message.id }}">
+            <td class="table-buttons"> 
+                <a href="/edit_message/{{ message.id }}" class="btn btn-info" id="edit_message_{{ message.id }}">Edit</a>
+                <a href="#" class="btn btn-danger delete_message_popup" id="delete_message_btn_{{ message.id }}">Delete</a> 
             </td>
             <td> {{ message.id }} </td>
             <td> {{ message.label }} </td>
@@ -21,4 +20,43 @@
         {% endfor %}
     </tbody>
 </table>
+<div id="delete_message_popup" class="reveal-modal">
+     <h1>Delete this message</h1>
+     <p>Are you sure you want to delete this message? You can't undo this action!</p>
+     
+     <button class="btn btn-info close-reveal">Nevermind...</button>
+     <button class="btn btn-danger delete_message" id="confirm_delete_btn">Delete</button>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.delete_message_popup').on("click", function(){
+        var id = $(this).attr('id').replace('delete_message_btn_', '');
+        $('.delete_message').attr('id', 'confirm_delete_'+id)
+        $('#delete_message_popup').reveal({
+             // animation: 'fadeAndPop',                   //fade, fadeAndPop, none
+             // animationspeed: 300,                       //how fast animtions are
+             closeonbackgroundclick: true,              //if you click background will modal close?
+             dismissmodalclass: 'close-reveal'    //the class of a button or element that will close an open modal
+        });
+    });
+
+
+    $('.delete_message').on("click", function(){
+        var id = $(this).attr('id').replace('confirm_delete_', '');
+        $.ajax({url:'/delete_message/', 
+            type: 'POST', 
+            data: ({message_id: id }),
+            dataType: "json", 
+            async: false, 
+            success: function(resp){
+                $('.close-reveal').trigger("click");
+                console.log(resp)
+                console.log(resp.error)
+                if (resp.error =='ok')
+                    $('#message_row_'+id).fadeOut();
+            }
+        }, "json");
+    });
+});
+</script>
 {% endblock %}
