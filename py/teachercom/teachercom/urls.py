@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^my_messages/', 'teachercomapp.views.my_messages', name='my_messages'),
     url(r'^twilio_calls/(\d+)/$', 'teachercomapp.views.twilio_call', name='twilio_call'),
     url(r'^recording_prompt/', 'teachercomapp.views.record_twilio_call', name='record_twilio_call'),
+    url(r'^record_twiml/', 'teachercomapp.views.record_twiml', name='record_twiml'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
