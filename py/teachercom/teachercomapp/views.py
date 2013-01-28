@@ -272,5 +272,4 @@ def record_twilio_call(request):
 
 @csrf_exempt
 def record_twiml(request):
-    if (request.POST):
-        return render_to_response("recording_prompt.html")
+    return render_to_response("recording_prompt.html")
