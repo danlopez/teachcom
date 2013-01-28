@@ -270,6 +270,7 @@ def record_twilio_call(request):
     #     url = '%srecord_twiml/' % (BASE_URL))
     return render_to_response("recording_prompt.html")
 
+@csrf_exempt
 def record_twiml(request):
     if (request.POST):
         return render_to_response("recording_prompt.html")
