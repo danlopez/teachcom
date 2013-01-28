@@ -72,7 +72,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '../../static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -167,7 +167,7 @@ EMAIL_HOST_PASSWORD = 'teachercom'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-BASE_URL = 'http://166.78.13.45:8000/'
+BASE_URL = 'http://teachercom.org'
 
 AUTH_PROFILE_MODULE='teachercomapp.Teacher'
 LOGIN_REDIRECT_URL = '/send'
