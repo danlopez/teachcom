@@ -215,10 +215,12 @@ def send_message(student, message, message_type):
 
 @csrf_exempt
 def twilio_call(request, event_id):
+    
     event = Event.objects.get(pk=event_id)
     t = template.Template(event.message.text)
     c = template.Context({'student': event.student})
     call_text = t.render(c)
+    print request
     # TODO if student not found ?
     # TODO if student.objects.call_notification_ind if false?
     r = twiml.Response()
