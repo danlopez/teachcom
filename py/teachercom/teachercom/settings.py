@@ -167,7 +167,7 @@ EMAIL_HOST_PASSWORD = 'teachercom'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-BASE_URL = 'http://166.78.13.45:8000/'
+BASE_URL = 'http://teachercom.org'
 
 AUTH_PROFILE_MODULE='teachercomapp.Teacher'
 LOGIN_REDIRECT_URL = '/send'

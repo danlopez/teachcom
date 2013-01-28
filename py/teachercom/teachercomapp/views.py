@@ -12,6 +12,9 @@ import StringIO
 from twilio import twiml
 from django import template
 from django.db.models import Q
+from twilio.rest import TwilioRestClient
+from teachercom import settings
+
 
 @cache_page(1)
 def index(request):
@@ -254,3 +257,15 @@ def phone_call_completed_handler(request, event_id):
 
     return render_to_response("success")
 
+def record_twilio_call(request):
+    # load connection
+    teacher = Teacher.objects.get(user=request.user)
+    # post = request.Post
+    conn = TwilioRestClient(
+        account = teacher.twilio_account_sid,
+        token = teacher.twilio_auth_token)
+    conn.calls.create(
+        to = '5855763828',
+        from_ = teacher.twilio_number,
+        url = '%srecording_prompt/' % (BASE_URL))
+    return render_to_response("recording_prompt.html")
