@@ -13,7 +13,7 @@ from twilio import twiml
 from django import template
 from django.db.models import Q
 from twilio.rest import TwilioRestClient
-from teachercom import settings
+from teachercom.settings import *
 
 
 @cache_page(1)
