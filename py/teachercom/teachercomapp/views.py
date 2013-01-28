@@ -174,14 +174,13 @@ def edit_message(request, message_id):
 
 
 def new_message(request):
->>>>>>> b03367de303daecf1b65af1b1716af95b4086968
     if request.method == 'GET':
         data = {
                 'form' : MessageForm,
                 'user' : request.user,
         }
         data.update(csrf(request))
-        return render_to_response('edit_messages.html', data)
+        return render_to_response('new_message.html', data)
     else:
         data = {
                 'form' : MessageForm(request.POST),
@@ -196,7 +195,15 @@ def new_message(request):
             message.save()
             return redirect('my_messages')
         else:
-            return render_to_response('edit_messages.html', data)
+            return render_to_response('new_message.html', data)
+
+def my_messages(request):
+    teacher = Teacher.objects.get(user=request.user)
+    data = {
+            'user' : request.user,
+            'messages' : Message.objects.filter(teacher=teacher),
+    }
+    return render_to_response('my_messages.html', data)
 
 def send_message(student, message, message_type):
     print 'sending message for %s' % (student.first_name)
@@ -216,9 +223,9 @@ def twilio_call(request, event_id):
     print request
     # TODO if student not found ?
     # TODO if student.objects.call_notification_ind if false?
-
     r = twiml.Response()
     r.say(call_text)
+    # if request.method == 'GET':
 
     return HttpResponse(str(r))
 
@@ -246,3 +253,4 @@ def phone_call_completed_handler(request, event_id):
         event.Save()
 
     return render_to_response("success")
+
