@@ -295,4 +295,4 @@ def confirm_recording(request):
 @csrf_exempt
 def record_twiml(request):
     print request
-    return render_to_response("recording_prompt.html", data)
+    return render_to_response("recording_prompt.html")
