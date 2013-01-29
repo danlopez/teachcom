@@ -14,7 +14,7 @@ from django import template
 from django.db.models import Q
 from twilio.rest import TwilioRestClient
 from teachercom.settings import *
-
+from pprint import pprint
 
 @cache_page(1)
 def index(request):
@@ -264,13 +264,35 @@ def record_twilio_call(request):
     conn = TwilioRestClient(
         account = teacher.twilio_account_sid,
         token = teacher.twilio_auth_token)
-    conn.calls.create(
+    call = conn.calls.create(
         to = '5855763828',
         from_ = teacher.twilio_number,
         url = '%srecord_twiml/' % (BASE_URL))
+    print call.sid
     return render_to_response("recording_prompt.html")
+
+def get_records(request):
+    teacher = Teacher.objects.get(user=request.user)
+    conn = TwilioRestClient(
+        account = teacher.twilio_account_sid,
+        token = teacher.twilio_auth_token)
+    sid = "CA4e22b16b541b1b3a5ce545aeb564415a"
+    call = conn.calls.get(sid)
+    # print call.sid
+    recordings = call.recordings.list()
+    data = ({
+        'user': request.user,
+        'recordings': recordings,
+        })
+    for recording in recordings:
+        print recording.sid
+    return render_to_response("recording_prompt.html", data)
+@csrf_exempt
+def confirm_recording(request):
+    print request
+    return redirect('my_messages')
 
 @csrf_exempt
 def record_twiml(request):
     print request
-    return render_to_response("recording_prompt.html")
+    return render_to_response("recording_prompt.html", data)
