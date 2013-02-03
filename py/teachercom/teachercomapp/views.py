@@ -289,8 +289,12 @@ def get_records(request):
     return render_to_response("recording_prompt.html", data)
 @csrf_exempt
 def confirm_recording(request):
-    print request
-    return redirect('my_messages')
+    if request.method =='GET':
+        print request
+        return redirect('my_messages')
+    elif request.method =='POST':
+        print request
+        #render some more twiml
 
 @csrf_exempt
 def record_twiml(request):

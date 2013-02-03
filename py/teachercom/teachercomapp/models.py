@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 # Create your models here.
 class Student(models.Model):
     teachers = models.ManyToManyField('Teacher')
-    student_id = models.BigIntegerField(unique=True)
+    student_id = models.BigIntegerField()
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     sms_notification_ind = models.BooleanField()
