@@ -290,6 +290,10 @@ def get_records(request):
     return render_to_response("recording_prompt.html", data)
 @csrf_exempt
 def confirm_recording(request):
+    data = ({
+        'user': request.user,
+        })
+
     if request.method =='POST': #coming from recording_prompt
         print request.POST.Digits;
         if (request.POST.Digits!=2):
