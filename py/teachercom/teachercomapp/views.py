@@ -259,15 +259,16 @@ def phone_call_completed_handler(request, event_id):
 
 def record_twilio_call(request):
     # load connection
-    teacher = Teacher.objects.get(user=request.user)
-    # post = request.Post
-    conn = TwilioRestClient(
-        account = teacher.twilio_account_sid,
-        token = teacher.twilio_auth_token)
-    call = conn.calls.create(
-        to = '5855763828',
-        from_ = teacher.twilio_number,
-        url = '%srecord_twiml/' % (BASE_URL))
+    if request.method == 'GET':
+        teacher = Teacher.objects.get(user=request.user)
+        # post = request.Post
+        conn = TwilioRestClient(
+            account = teacher.twilio_account_sid,
+            token = teacher.twilio_auth_token)
+        call = conn.calls.create(
+            to = '5855763828',
+            from_ = teacher.twilio_number,
+            url = '%srecord_twiml/' % (BASE_URL))
     print call.sid
     return render_to_response("recording_prompt.html")
 
@@ -289,12 +290,24 @@ def get_records(request):
     return render_to_response("recording_prompt.html", data)
 @csrf_exempt
 def confirm_recording(request):
-    if request.method =='GET':
-        print request
-        return redirect('my_messages')
-    elif request.method =='POST':
-        print request
+    if request.method =='POST': #coming from recording_prompt
+        print request.POST.Digits;
+        if (request.POST.Digits!=2):
+            r = twiml.Response()
+            r.say("Thanks! Goodbye.")
+            return HttpResponse(str(r))
+        else:
+            print request
+            #erase previous recording, should be in request
+            data = ({
+                'user': request.user,
+                'recordings': recordings,
+                })
+            return render_to_response("recording_prompt.html", data)
+    else : #coming from recording_prompt (request.GET)
+        return render_to_response("confirm_recording.html", data)
         #render some more twiml
+        #return redirect('my_messages')
 
 @csrf_exempt
 def record_twiml(request):
