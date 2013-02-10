@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 try:
                     conn.sms.messages.create(
                         to = event.student.phone_number,
-                        from_ = event.message.teacher.twilio_number,
+                        from_ = event.teacher.twilio_number,
                         body = msg[0:160])
                     event.result_of_message = 0
 		    print "Sent SMS to "+ event.student.phone_number
@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 # send voice call
                 conn.calls.create(
                     to = event.student.phone_number,
-                    from_ = event.message.teacher.twilio_number,
+                    from_ = event.teacher.twilio_number,
                     url = '%stwilio_calls/%d/' % (BASE_URL, event.id))
                 event.result_of_message=0
         	print "Called "+ event.student.phone_number
@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 # send email message
                 message = template.Template(event.message.text)
                 c = template.Context({ 'student' :  event.student })
-                send_mail('Message from your teacher', message.render(c), event.message.teacher.user.email, [event.student.email])
+                send_mail('Message from your teacher', message.render(c), event.teacher.user.email, [event.student.email])
                 event.result_of_message = 0
             else:
                 pass
