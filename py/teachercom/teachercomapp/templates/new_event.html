@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+{% block content %}
+{% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+{% endif %}
+<table>
+    <form method='post' action=''>{% csrf_token %}
+        {{ form }}
+        <tr><td></td><td><input class="btn btn-primary" type="submit" value="Create" /></td>
+    </form>
+</table>
+<script>
+$(document).ready(function(){
+    $('#id_student').select2({'width' : 'element'});
+    $('#id_type_of_message').select2({'width' : 'element'});
+    $('#id_result_of_message').select2({'width' : 'element'});
+});
+</script>
+{% endblock %}

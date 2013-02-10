@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response, redirect
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from teachercomapp.models import Student, Message, Event, Teacher
-from teachercomapp.forms import MessageForm, StudentForm
+from teachercomapp.forms import MessageForm, StudentForm, EventForm
 import datetime
 import csv
 import StringIO
@@ -42,11 +42,11 @@ def send(request):
         for student_id in request.POST.getlist('students'):
             student = Student.objects.get(pk=student_id)
             if student.sms_notification_ind:
-                send_message(student, message, 1)
+                send_message(student, message, 1, request)
             if student.call_notification_ind:
-                send_message(student, message, 2)
+                send_message(student, message, 2, request)
             if student.email_notification_ind:
-                send_message(student, message, 3)
+                send_message(student, message, 3, request)
         return render_to_response('sent.html', data)
 
 def list_students(request):
@@ -102,7 +102,7 @@ def handle_csv(request):
 def call_log(request):
     teacher = Teacher.objects.get(user = request.user)
     data = {
-            'events': Event.objects.filter(message__in = Message.objects.filter(teacher = teacher)),
+            'events': Event.objects.filter(teacher = teacher),
             'user': request.user,
         }
     return render_to_response('call_log.html', data)        
@@ -200,6 +200,31 @@ def new_message(request):
         else:
             return render_to_response('new_message.html', data)
 
+def new_event(request):
+    if request.method == 'GET':
+        data = {
+                'form' : EventForm,
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        return render_to_response('new_event.html', data)
+    else:
+        data = {
+                'form' : EventForm(request.POST),
+                'user' : request.user,
+        }
+        data.update(csrf(request))
+        f = EventForm(request.POST)
+        # Check to see if form is valid
+        if f.is_valid():
+            event = f.save(commit=False)
+            event.teacher = Teacher.objects.get(user=request.user)
+            event.save()
+            return redirect('call_log')
+        else:
+            return render_to_response('new_event.html', data)
+
+
 def my_messages(request):
     teacher = Teacher.objects.get(user=request.user)
     data = {
@@ -208,21 +233,25 @@ def my_messages(request):
     }
     return render_to_response('my_messages.html', data)
 
-def send_message(student, message, message_type):
+def send_message(student, message, message_type, request):
+    teacher = Teacher.objects.get(user=request.user)
     print 'sending message for %s' % (student.first_name)
-    event = Event(student=student, message=message,
+    new_message = template.Template(message.text)
+    c = template.Context({ 'student' : student })
+    print new_message.render(c)
+    event = Event(student=student, 
+        message=new_message.render(c), 
+        teacher=teacher,
         date_of_message=datetime.datetime.now(),
         type_of_message=message_type,
         result_of_message=4)
+    print "Message" + event.message
     event.save()
 
 @csrf_exempt
 def twilio_call(request, event_id):
-    
     event = Event.objects.get(pk=event_id)
-    t = template.Template(event.message.text)
-    c = template.Context({'student': event.student})
-    call_text = t.render(c)
+    call_text = event.message
     print request
     # TODO if student not found ?
     # TODO if student.objects.call_notification_ind if false?

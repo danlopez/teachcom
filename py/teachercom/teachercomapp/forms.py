@@ -3,7 +3,7 @@ from registration.forms import RegistrationForm
 from django.forms import Form, ModelForm
 
 import models
-from models import Message, Student
+from models import Message, Student, Event
 from registration.models import RegistrationProfile
 
 attrs_dict = { 'class': 'required' }
@@ -15,7 +15,7 @@ class UserRegistrationForm(RegistrationForm):
 
 class MessageForm(ModelForm):
     class Meta:
-        model=Message
+        model = Message
         exclude = ('teacher')
     #label = forms.CharField(widget=forms.TextInput(attrs=attrs_dict))
     # teacher = forms.ChoiceField()
@@ -24,5 +24,10 @@ class MessageForm(ModelForm):
 
 class StudentForm(ModelForm):
     class Meta:
-        model=Student
+        model = Student
         exclude = ('teachers',)
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        exclude = ('teacher','date_of_message')

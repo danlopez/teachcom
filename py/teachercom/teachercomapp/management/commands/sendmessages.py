@@ -18,10 +18,7 @@ class Command(BaseCommand):
                 token = event.message.teacher.twilio_auth_token)
             if event.type_of_message == 1:
                 # send sms
-                t = template.Template(event.message.text)
-                c = template.Context({'student': event.student})
-                msg = t.render(c)
-                
+                msg = event.message                
                 try:
                     conn.sms.messages.create(
                         to = event.student.phone_number,

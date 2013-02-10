@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<table class="table">
+<table class="table table-bordered table-striped" id="call_log_table">
     <thead>
         <td> Student </td>
         <td> Message </td>
@@ -12,12 +12,17 @@
         {% for event in events %}
         <tr>
             <td> {{ event.student.first_name }} {{event.student.last_name}} </td>
-            <td> {{ event.message.text }} </td>
-            <td> {{ event.date_of_message }} </td>
+            <td> {{ event.message }} </td>
+            <td> {{ event.date_of_message|date:"d/m/Y" }} </td>
             <td> {{ event.get_type_of_message_display }} </td>
             <td> {{ event.get_result_of_message_display }} </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<script type = "text/javascript">
+$(document).ready(function(){
+    $('#call_log_table').dataTable();
+});
+</script>
 {% endblock %}

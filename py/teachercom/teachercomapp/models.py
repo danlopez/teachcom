@@ -45,8 +45,9 @@ class Event(models.Model):
         (4, 'pending'),
         )
     student = models.ForeignKey('Student')
-    message = models.ForeignKey('Message')
-    date_of_message = models.DateTimeField()
+    teacher = models.ForeignKey('Teacher')
+    message = models.TextField()
+    date_of_message = models.DateTimeField(auto_now_add=True, blank=True)
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
 
