@@ -270,6 +270,8 @@ def record_twilio_call(request):
             from_ = teacher.twilio_number,
             url = '%srecord_twiml/' % (BASE_URL))
     print call.sid
+    #should redirect to a message object.  Should create a new data type 'recordings'
+        #can be attached to a message
     return render_to_response("recording_prompt.html")
 
 def get_records(request):
@@ -294,8 +296,7 @@ def confirm_recording(request):
         'user': request.user,
         })
 
-    if request.method =='POST': #coming from recording_prompt
-        print request.POST.Digits;
+    if request.method =='POST': #coming from confirm_recording
         if (request.POST.Digits!=2):
             r = twiml.Response()
             r.say("Thanks! Goodbye.")
@@ -307,7 +308,7 @@ def confirm_recording(request):
                 'user': request.user,
                 'recordings': recordings,
                 })
-            return render_to_response("recording_prompt.html", data)
+            return render_to_response("recording_prompt.html")
     else : #coming from recording_prompt (request.GET)
         return render_to_response("confirm_recording.html", data)
         #render some more twiml

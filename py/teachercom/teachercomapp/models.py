@@ -49,3 +49,7 @@ class Event(models.Model):
     date_of_message = models.DateTimeField()
     type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
     result_of_message = models.IntegerField(choices = RESULT_TYPES)
+
+class Recording(models.Model):
+    event = models.OneToOneField(Event)
+    recording_url = models.CharField(max_length=128)
