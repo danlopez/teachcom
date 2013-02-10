@@ -3,6 +3,8 @@ from django import template
 from teachercomapp.models import Event, Student, Message
 from twilio.rest import TwilioRestClient
 from teachercom.settings import *
+from django.core.mail import send_mail
+
 
 class Command(BaseCommand):
     help = "Send messages queued to be sent in the (hopefully recent) past"
@@ -37,8 +39,14 @@ class Command(BaseCommand):
                     from_ = event.message.teacher.twilio_number,
                     url = '%stwilio_calls/%d/' % (BASE_URL, event.id))
                 event.result_of_message=0
-		print "Called "+ event.student.phone_number
+        		print "Called "+ event.student.phone_number
                 #actually check result later
+            elif event.type_of_message == 3:
+                # send email message
+                message = template.Template(event.message.text)
+                c = template.Context({'student', event.student})
+                send_mail('Message from your teacher', message.render(c), event.message.teacher.email, [event.student.email])
+                event.result_of_message = 0
             else:
                 pass
                 # send email, you know, if we get time

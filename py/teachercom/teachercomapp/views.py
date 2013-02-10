@@ -275,21 +275,13 @@ def record_twilio_call(request):
     return render_to_response("recording_prompt.html")
 
 def get_records(request):
-    teacher = Teacher.objects.get(user=request.user)
-    conn = TwilioRestClient(
-        account = teacher.twilio_account_sid,
-        token = teacher.twilio_auth_token)
-    sid = "CA4e22b16b541b1b3a5ce545aeb564415a"
-    call = conn.calls.get(sid)
-    # print call.sid
-    recordings = call.recordings.list()
-    data = ({
-        'user': request.user,
-        'recordings': recordings,
-        })
-    for recording in recordings:
-        print recording.sid
-    return render_to_response("recording_prompt.html", data)
+    event_id = 11
+    event = Event.objects.get(id = event_id)
+    plaintext = template.Template(event.message.text)
+    context = template.Context({'student': event.student})
+    print plaintext.render(context)
+    
+    return render_to_response("recording_prompt.html")
 @csrf_exempt
 def confirm_recording(request):
     data = ({
