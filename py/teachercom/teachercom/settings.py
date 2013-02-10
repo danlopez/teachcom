@@ -154,11 +154,11 @@ INSTALLED_APPS = (
 #Number of days for activation email to stay valid
 ACCOUNT_ACTIVATION_DAYS = 7
 
-SEND_EMAIL = False  #Change this to True to require 2 step activation with an email
+SEND_EMAIL = True  #Change this to True to require 2 step activation with an email
 
 #Temporary email backend 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_FILE_PATH='/tmp/email_log'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_FILE_PATH='/tmp/email_log'
 
 #Sendgrid user settings 
 EMAIL_HOST = 'smtp.sendgrid.net'
