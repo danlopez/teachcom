@@ -18,11 +18,24 @@ from pprint import pprint
 
 @cache_page(1)
 def index(request):
-    data = {
-        'user': request.user,
-    }
-
-    return render_to_response('index.html', data)
+    if request.user.is_authenticated():
+        teacher = Teacher.objects.get(user = request.user)
+        calls_made = Event.objects.filter(teacher=teacher).filter(type_of_message=2).count()
+        sms_made = Event.objects.filter(teacher=teacher).filter(type_of_message=1).count()
+        emails_sent = Event.objects.filter(teacher=teacher).filter(type_of_message=3).count()
+        data = {
+            'user': request.user,
+            'teacher' : teacher,
+            'events' : Event.objects.filter(teacher=teacher)[:5],
+            'num_calls_possible' : teacher.credits / 2,
+            'num_calls_made' : calls_made,
+            'num_sms_made' : sms_made,
+            'num_emails_sent' : emails_sent,
+            'minutes_saved' : (calls_made * 5) + sms_made + emails_sent
+        }
+        return render_to_response('dashboard.html', data)
+    else:
+        return render_to_response('index.html')
 
 def send(request):
     if request.method == 'GET':

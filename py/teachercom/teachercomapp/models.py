@@ -22,7 +22,8 @@ class Teacher(models.Model):
     twilio_account_sid = models.CharField(max_length = 128)
     twilio_auth_token = models.CharField(max_length = 128)
     twilio_number = models.CharField(max_length = 20)
-
+    credits = models.IntegerField(max_length = 30, default=100)
+    
     def __unicode__(self):
         return self.user.username
 
@@ -30,6 +31,9 @@ class Message(models.Model):
     teacher = models.ForeignKey('Teacher')
     label = models.CharField(max_length=64)
     text = models.TextField()
+
+    def __unicode__(self):
+        return self.user.label
 
 class Event(models.Model):
     MESSAGE_TYPES =  (

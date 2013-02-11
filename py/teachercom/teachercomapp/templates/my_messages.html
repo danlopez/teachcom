@@ -8,7 +8,8 @@
         <td> Message </td>
     </thead>
     <tbody>
-        {% for message in messages %}        <tr id = "message_row_{{ message.id }}">
+        {% for message in messages %}        
+        <tr id = "message_row_{{ message.id }}">
             <td class="table-buttons"> 
                 <a href="/edit_message/{{ message.id }}" class="btn btn-info" id="edit_message_{{ message.id }}">Edit</a>
                 <a href="#" class="btn btn-danger delete_message_popup" id="delete_message_btn_{{ message.id }}">Delete</a> 

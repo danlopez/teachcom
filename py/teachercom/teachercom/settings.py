@@ -172,7 +172,7 @@ EMAIL_USE_TLS = True
 BASE_URL = 'http://teachercom.org/'
 
 AUTH_PROFILE_MODULE='teachercomapp.Teacher'
-LOGIN_REDIRECT_URL = '/send'
+LOGIN_REDIRECT_URL = '/'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
