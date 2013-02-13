@@ -13,7 +13,7 @@
         <tr>
             <td> {{ event.student.first_name }} {{event.student.last_name}} </td>
             <td> {{ event.message }} </td>
-            <td> {{ event.date_of_message|date:"d/m/Y" }} </td>
+            <td> {{ event.date_of_message|date:"d/m/Y g:m a" }} </td>
             <td> {{ event.get_type_of_message_display }} </td>
             <td> {{ event.get_result_of_message_display }} </td>
         </tr>
