@@ -237,7 +237,11 @@ def new_event(request):
         else:
             return render_to_response('new_event.html', data)
 def docs(request):
-    return render_to_response('docs.html')
+    data = {
+                'user' : request.user,
+        }
+    return render_to_response('docs.html', data)
+
 def my_messages(request):
     teacher = Teacher.objects.get(user=request.user)
     data = {
