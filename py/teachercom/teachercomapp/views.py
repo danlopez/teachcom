@@ -236,8 +236,8 @@ def new_event(request):
             return redirect('call_log')
         else:
             return render_to_response('new_event.html', data)
-
-
+def docs(request):
+    return render_to_response('docs.html')
 def my_messages(request):
     teacher = Teacher.objects.get(user=request.user)
     data = {

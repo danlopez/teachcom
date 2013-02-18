@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load staticfiles %}
+
+<h3> Teachercom Docs </h3>
+
+<h5> Parent Consent Form - <a href='{% static "docs/consent.docx" %}'> Download </a>  </h5>
+<p> Parents should fill this out <i> before </i> you start using Teachercom </p>
+
+
+<h5> Upload Template - <a href='{% static "docs/template.csv" %}'> Download </a>  </h5>
+<p> Fill out & upload to add a lot of students at once </p>
+
+{% endblock %}
