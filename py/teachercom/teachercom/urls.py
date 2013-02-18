@@ -46,4 +46,6 @@ urlpatterns = patterns('',
     url(r'^edit_student/(\d+)/$', 'teachercomapp.views.edit_student', name='edit_student'),
     url(r'^new_event/', 'teachercomapp.views.new_event', name='new_event'),
     url(r'^docs/', 'teachercomapp.views.docs', name='docs'),
+    url(r'^dispatch_messages/', 'teachercomapp.views.dispatch_messages', name='dispatch_messages'),
+
     )

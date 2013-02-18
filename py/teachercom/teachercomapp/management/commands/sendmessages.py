@@ -25,10 +25,10 @@ class Command(BaseCommand):
                         from_ = event.teacher.twilio_number,
                         body = msg[0:160])
                     event.result_of_message = 0
-		    print "Sent SMS to "+ event.student.phone_number
                 except:
                     event.result_of_message = 3
-                    
+                print "Sent SMS to "+ event.student.phone_number
+  
             elif event.type_of_message == 2:
                 # send voice call
                 conn.calls.create(
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     from_ = event.teacher.twilio_number,
                     url = '%stwilio_calls/%d/' % (BASE_URL, event.id))
                 event.result_of_message=0
-        	print "Called "+ event.student.phone_number
+            print "Called "+ event.student.phone_number
                 #actually check result later
             elif event.type_of_message == 3:
                 # send email message
@@ -47,4 +47,4 @@ class Command(BaseCommand):
             else:
                 pass
                 # send email, you know, if we get time
-	    event.save()
+        event.save()

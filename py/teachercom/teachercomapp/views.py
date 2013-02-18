@@ -15,6 +15,7 @@ from django.db.models import Q
 from twilio.rest import TwilioRestClient
 from teachercom.settings import *
 from pprint import pprint
+import os
 
 @cache_page(1)
 def index(request):
@@ -356,3 +357,7 @@ def confirm_recording(request):
 def record_twiml(request):
     print request
     return render_to_response("recording_prompt.html")
+
+def dispatch_messages(request):
+    os.system("./manage.py sendmessages")
+    return redirect("index")
