@@ -26,7 +26,7 @@ def index(request):
         data = {
             'user': request.user,
             'teacher' : teacher,
-            'events' : Event.objects.filter(teacher=teacher)[:5],
+            'events' : Event.objects.filter(teacher=teacher).order_by('-date_of_message')[:5],
             'num_calls_possible' : teacher.credits / 2,
             'num_calls_made' : calls_made,
             'num_sms_made' : sms_made,

@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
-    <div class = "span1">
+    <div class = "span8 offset1">
         <h3>Welcome, {{ user.username }}</h3>
     </div>
+</div>
+<div>
     <div class = "span5 offset1">
-        <h3>Recent Messages</h3>
+        <h3>My Recent Messages</h3>
         <table class="table">
             <thead>
                     <td>Student</td>
                     <td>Message</td>
-                    <td>Date</td>
             </thead>
             <tbody>
                 {% for event in events %}
                 <tr>
                     <td>{{ event.student }}</td>
                     <td>{{ event.message|truncatewords:10 }}</td>
-                    <td> {{ event.date_of_message|date:"d/m/Y" }} </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -28,11 +28,11 @@
     </div>
     <div class = "span3 offset1">
         <h3>Account Overview</h3>
-        <h5>Credits Remaining: </h5>
+        <!-- <h5>Credits Remaining: </h5>
         <h4>{{ teacher.credits }}</h4>
         -Enough for {{ num_calls_possible }} phone calls!<br>
         -Enough for {{ teacher.credits }} SMS messages!
-        <a href="#" class="btn btn-success">Get More Credits! </a>
+        <a href="#" class="btn btn-success">Get More Credits! </a> -->
         <h5>Calls Made: </h5>
         <h4>{{ num_calls_made }}</h4>
         <h5>Texts Sent: </h5>
