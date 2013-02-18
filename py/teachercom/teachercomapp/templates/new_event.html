@@ -6,7 +6,7 @@
             Please correct the error{{ form.errors|pluralize }} below.
         </p>
 {% endif %}
-<table>
+<table class="new-event">
     <form method='post' action=''>{% csrf_token %}
         {{ form }}
         <tr><td></td><td><input class="btn btn-primary" type="submit" value="Create" /></td>

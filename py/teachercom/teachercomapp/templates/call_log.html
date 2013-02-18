@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+<a href="/new_event" class="btn btn-primary">Manually Log a call </a>
+
 <table class="table table-bordered table-striped" id="call_log_table">
     <thead>
         <td> Student </td>
@@ -13,7 +15,7 @@
         <tr>
             <td> {{ event.student.first_name }} {{event.student.last_name}} </td>
             <td> {{ event.message }} </td>
-            <td> {{ event.date_of_message|date:"m/d/Y g:i a" }} </td>
+            <td> {{ event.date_of_message|date:"M d, g:i a" }} </td>
             <td> {{ event.get_type_of_message_display }} </td>
             <td> {{ event.get_result_of_message_display }} </td>
         </tr>
@@ -22,7 +24,9 @@
 </table>
 <script type = "text/javascript">
 $(document).ready(function(){
-    $('#call_log_table').dataTable();
+    $('#call_log_table').dataTable({
+        "aaSorting": [[ 2, "desc" ]]
+    });
 });
 </script>
 {% endblock %}

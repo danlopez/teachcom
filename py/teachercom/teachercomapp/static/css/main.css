@@ -73,3 +73,10 @@
 .table thead {
 	font-weight: bold;
 }
+.dataTables_wrapper {
+	margin-top: 10px;
+}
+.new-event li {
+	display: inline-block;
+	margin-right: 10px;
+}

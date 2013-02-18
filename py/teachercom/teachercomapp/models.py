@@ -52,8 +52,8 @@ class Event(models.Model):
     teacher = models.ForeignKey('Teacher')
     message = models.TextField()
     date_of_message = models.DateTimeField(auto_now_add=True, blank=True)
-    type_of_message = models.IntegerField(choices=MESSAGE_TYPES) 
-    result_of_message = models.IntegerField(choices = RESULT_TYPES)
+    type_of_message = models.IntegerField(choices=MESSAGE_TYPES, default = 2) 
+    result_of_message = models.IntegerField(choices = RESULT_TYPES, default = 0)
 
 class Recording(models.Model):
     event = models.OneToOneField(Event)
