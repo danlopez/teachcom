@@ -1,6 +1,6 @@
 from django import forms
 from registration.forms import RegistrationForm
-from django.forms import Form, ModelForm
+from django.forms import Form, ModelForm, RadioSelect
 
 import models
 from models import Message, Student, Event
@@ -31,3 +31,6 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         exclude = ('teacher','date_of_message')
+        widgets = {
+            'type_of_message' : RadioSelect(attrs={'class' : 'inline-radio'}),
+        }
