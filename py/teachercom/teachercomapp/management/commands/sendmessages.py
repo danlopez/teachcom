@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     from_ = event.teacher.twilio_number,
                     url = '%stwilio_calls/%d/' % (BASE_URL, event.id))
                 event.result_of_message=0
-            print "Called "+ event.student.phone_number
+                print "Called "+ event.student.phone_number
                 #actually check result later
             elif event.type_of_message == 3:
                 # send email message
