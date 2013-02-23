@@ -359,5 +359,5 @@ def record_twiml(request):
     return render_to_response("recording_prompt.html")
 
 def dispatch_messages(request):
-    os.system("./manage.py sendmessages")
+    os.system("/var/www/teachercom/src/teachcom/py/teachercom/manage.py sendmessages")
     return redirect("index")
